@@ -5,10 +5,10 @@ from sqlite3.dbapi2 import Cursor
 CREATE_MOVIES_TABLE = """CREATE TABLE IF NOT EXISTS movies (
     id INTEGER PRIMARY KEY,
     title TEXT,
-    release_timestamp REAL,
+    release_timestamp REAL
 );"""
 
-CREATE_USERS_TABLE = """CREAYE TABLE IF NOT EXISTS users (
+CREATE_USERS_TABLE = """CREATE TABLE IF NOT EXISTS users (
     username TEXT PRIMARY KEY
 );"""
 
@@ -21,9 +21,9 @@ CREATE_WATCHED_TABLE = """CREATE TABLE IF NOT EXISTS watched (
 );"""
 
 
-INSERT_MOVIES = "INSERT INTO movies (title, release_timestap, watched) VALUES (?, ?, 0);"
+INSERT_MOVIES = "INSERT INTO movies (title, release_timestamp, watched) VALUES (?, ?, 0);"
 INSERT_USER = "INSERT INTO users (username) VALUES (?)"
-DELETE_MOVIE = "DELETE RROM movies WHERE ttle =?;"
+DELETE_MOVIE = "DELETE FROM movies WHERE title =?;"
 SELECT_ALL_MOVIES = "SELECT * FROM movies;"
 SELECT_UPCOMING_MOVIES ="SELECT * FROM movies WHERE release_timestamp > ?;"
 SELECT_WATCHED_MOVIES = """SELECT * FROM movies
@@ -32,7 +32,7 @@ JOIN users ON users.username = watched.user_username
 WHERE users.username = ?;"""
 INSERT_WATCHED_MOVIE = "INSERT INTO watched (user_username, movie_id) VALUES (?, ?)"
 SET_MOVIE_WATCHED = "UPDATE moviesSET watched = 1 WHERE title = ?;"
-SEARCH_MOVIES = "SELECT * FROM movies  title LIKE ?;"
+SEARCH_MOVIES = "SELECT * FROM movies WHERE title LIKE ?;"
 CREATE_RELEASE_INDEX = "CREATE INDEX IF NOT EXISTS idx_movies_release ON movies(release_timestamp);"
 
 connection = sqlite3.connect("data.db") 
@@ -70,7 +70,7 @@ def get_movies(upcoming=False):
 def search_movies(search_term):
     with connection:
         cursor = connection.cursor()
-        cursor.execute(SEARCH_MOVIES,(f"%{search_term}%"))
+        cursor.execute(SEARCH_MOVIES,(f"%{search_term}%",))
         return cursor.fetchall()
 
 

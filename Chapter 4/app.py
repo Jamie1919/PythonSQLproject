@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 import database 
 
 menu = """Please select one of the following options:
@@ -6,7 +6,7 @@ menu = """Please select one of the following options:
 2) View upcoming movies.
 3) View all movies
 4) Watch a movie
-5) View wtched movies.
+5) View watched movies.
 6) Add user to the app.
 7) Search for a movie.
 8) Exit.
@@ -16,13 +16,13 @@ welcome = "Welcome to the watchlist app!"
 
 
 print(welcome)
-database.create_table()
+database.create_tables()
 
 
 def prompt_add_movie():
-    title = input("Movie ttle:")
+    title = input("Movie title:")
     release_date = input("Release date (dd-mm-YYYY: ")
-    parsed_date = datetime.datetime.striptime(release_date, "%d-%m-%Y")
+    parsed_date = datetime.datetime.strptime(release_date, "%d-%m-%Y")
     timestamp = parsed_date.timestamp()
 
     database.add_movie(title, timestamp)
@@ -48,11 +48,11 @@ def prompt_show_watched_movies():
     if movies:
         print_movie_list("Watched", movies)
     else:
-        print("That user has watched no moies yet!")
+        print("That user has watched no movies yet!")
 
 
 def prompt_search_movies():
-    search_term = input("Enter the partial moie tile: ")
+    search_term = input("Enter the partial movie title: ")
     movies = database.search_movies(search_term)
     if movies:
         print_movie_list("Movies found", movies)
@@ -63,7 +63,7 @@ def prompt_search_movies():
 
 
 def prompt_add_user():
-    username =  input("Uername: ")
+    username =  input("Username: ")
     database.add_user(username)
 
 while (user_input := input(menu)) != "8":
